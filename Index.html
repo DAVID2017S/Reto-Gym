@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reto David vs Bruno</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <!-- Fondo decorativo -->
+  <div class="background-glow glow-blue"></div>
+  <div class="background-glow glow-red"></div>
+
+  <main class="app-container">
+
+    <!-- Pantalla inicial -->
+    <section id="startScreen" class="screen active-screen">
+      <div class="hero-card">
+        <div class="logo">⚡</div>
+
+        <h1>Reto David <span>vs</span> Bruno</h1>
+        <p class="subtitle">
+          Registra tus hábitos, suma puntos y demuestra quién gana.
+        </p>
+
+        <div class="user-buttons">
+          <button class="big-user-button david-button" data-user="David">
+            <span class="user-icon">🔵</span>
+            <strong>David</strong>
+            <small>Entrar como David</small>
+          </button>
+
+          <button class="big-user-button bruno-button" data-user="Bruno">
+            <span class="user-icon">🔴</span>
+            <strong>Bruno</strong>
+            <small>Entrar como Bruno</small>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard principal -->
+    <section id="dashboardScreen" class="screen">
+      <header class="top-header">
+        <div>
+          <p class="eyebrow">Jugador activo</p>
+          <h2 id="activeUserName">David</h2>
+        </div>
+
+        <button id="changeUserButton" class="small-button secondary-button">
+          Cambiar usuario
+        </button>
+      </header>
+
+      <!-- Resumen -->
+      <div class="stats-grid">
+        <article class="stat-card points-card">
+          <span class="stat-icon">🏆</span>
+          <div>
+            <span class="stat-label">Puntos totales</span>
+            <strong id="totalPoints">0</strong>
+          </div>
+        </article>
+
+        <article class="stat-card weight-card">
+          <span class="stat-icon">⚖️</span>
+          <div>
+            <span class="stat-label">Peso actual</span>
+            <strong id="currentWeight">-- kg</strong>
+          </div>
+        </article>
+      </div>
+
+      <!-- Acciones principales -->
+      <div class="section-title">
+        <h3>Registrar actividad</h3>
+        <span class="line"></span>
+      </div>
+
+      <div class="action-grid">
+        <button id="exerciseButton" class="action-button blue-action">
+          <span>🏃</span>
+          <strong>Registrar ejercicio</strong>
+          <small>Suma hasta 2 puntos</small>
+        </button>
+
+        <button id="foodButton" class="action-button green-action">
+          <span>🍎</span>
+          <strong>Registrar comida</strong>
+          <small>Cuida tu alimentación</small>
+        </button>
+
+        <button id="weightButton" class="action-button purple-action">
+          <span>⚖️</span>
+          <strong>Registrar peso</strong>
+          <small>Actualiza tu estadística</small>
+        </button>
+
+        <button id="historyButton" class="action-button orange-action">
+          <span>📋</span>
+          <strong>Ver historial</strong>
+          <small>Consulta todos tus registros</small>
+        </button>
+      </div>
+
+      <!-- Finalizar reto -->
+      <div id="finishChallengeContainer" class="finish-container hidden">
+        <button id="finishChallengeButton" class="finish-button">
+          🏁 Finalizar reto
+        </button>
+        <p>Esta acción calcula el ganador definitivo.</p>
+      </div>
+
+      <!-- Importar y exportar -->
+      <div class="data-tools">
+        <div class="section-title">
+          <h3>Datos</h3>
+          <span class="line"></span>
+        </div>
+
+        <div class="data-buttons">
+          <button id="exportButton" class="small-button blue-outline-button">
+            ⬇️ Exportar JSON
+          </button>
+
+          <button id="importButton" class="small-button green-outline-button">
+            ⬆️ Importar JSON
+          </button>
+
+          <input id="importFile" type="file" accept=".json,application/json" hidden>
+        </div>
+
+        <p class="data-warning">
+          Los datos se guardan en este navegador. Para compartirlos entre dispositivos,
+          utiliza exportar e importar.
+        </p>
+      </div>
+    </section>
+
+    <!-- Pantalla de formularios -->
+    <section id="formScreen" class="screen">
+      <header class="top-header">
+        <button id="backFromFormButton" class="small-button secondary-button">
+          ← Volver
+        </button>
+
+        <div class="header-centered">
+          <p class="eyebrow">Nuevo registro</p>
+          <h2 id="formTitle">Registrar ejercicio</h2>
+        </div>
+
+        <div class="header-placeholder"></div>
+      </header>
+
+      <!-- Formulario de ejercicio -->
+      <form id="exerciseForm" class="form-card hidden">
+        <div class="form-icon">🏃</div>
+
+        <label for="exerciseType">Tipo de ejercicio</label>
+        <select id="exerciseType" required>
+          <option value="">Selecciona una opción</option>
+          <option value="Correr">Correr</option>
+          <option value="Caminar">Caminar</option>
+          <option value="Pesas">Pesas</option>
+          <option value="Gym">Gym</option>
+          <option value="Otro">Otro</option>
+        </select>
+
+        <label for="exerciseIntensity">Intensidad</label>
+        <select id="exerciseIntensity" required>
+          <option value="">Selecciona una opción</option>
+          <option value="Suave">Suave (+1 punto)</option>
+          <option value="Normal">Normal (+1 punto)</option>
+          <option value="Pesado">Pesado (+2 puntos)</option>
+        </select>
+
+        <button type="submit" class="submit-button">
+          Guardar ejercicio
+        </button>
+      </form>
+
+      <!-- Formulario de comida -->
+      <form id="foodForm" class="form-card hidden">
+        <div class="form-icon">🍎</div>
+
+        <label for="foodDescription">Descripción</label>
+        <textarea
+          id="foodDescription"
+          rows="4"
+          placeholder="Ejemplo: Pollo con arroz y ensalada"
+          required
+        ></textarea>
+
+        <label for="foodCategory">Categoría</label>
+        <select id="foodCategory" required>
+          <option value="">Selecciona una opción</option>
+          <option value="Dieta">Dieta (+2 puntos)</option>
+          <option value="Decente">Decente (+1 punto)</option>
+          <option value="Chatarra">Chatarra (-2 puntos)</option>
+        </select>
+
+        <button type="submit" class="submit-button">
+          Guardar comida
+        </button>
+      </form>
+
+      <!-- Formulario de peso -->
+      <form id="weightForm" class="form-card hidden">
+        <div class="form-icon">⚖️</div>
+
+        <label for="weightValue">Peso actual en kilogramos</label>
+        <input
+          id="weightValue"
+          type="number"
+          min="1"
+          max="500"
+          step="0.1"
+          placeholder="Ejemplo: 78.5"
+          required
+        >
+
+        <p class="form-help">
+          El peso se guarda como estadística y no modifica los puntos totales.
+        </p>
+
+        <button type="submit" class="submit-button">
+          Guardar peso
+        </button>
+      </form>
+    </section>
+
+    <!-- Pantalla de historial -->
+    <section id="historyScreen" class="screen">
+      <header class="top-header">
+        <button id="backFromHistoryButton" class="small-button secondary-button">
+          ← Volver
+        </button>
+
+        <div class="header-centered">
+          <p class="eyebrow">Actividad registrada</p>
+          <h2>Historial</h2>
+        </div>
+
+        <div class="header-placeholder"></div>
+      </header>
+
+      <div class="history-summary">
+        <span>Total de puntos:</span>
+        <strong id="historyTotalPoints">0</strong>
+      </div>
+
+      <div id="historyList" class="history-list">
+        <!-- Los registros se insertan con JavaScript -->
+      </div>
+    </section>
+
+    <!-- Pantalla final -->
+    <section id="finishScreen" class="screen finish-screen">
+      <div id="confettiContainer" class="confetti-container"></div>
+
+      <div class="winner-card">
+        <div class="trophy">🏆</div>
+        <p class="eyebrow">Resultado final</p>
+        <h1 id="winnerTitle">¡Reto finalizado!</h1>
+
+        <div class="final-scores">
+          <div class="final-player david-final">
+            <span>🔵 David</span>
+            <strong id="davidFinalPoints">0 puntos</strong>
+          </div>
+
+          <div class="final-player bruno-final">
+            <span>🔴 Bruno</span>
+            <strong id="brunoFinalPoints">0 puntos</strong>
+          </div>
+        </div>
+
+        <p id="loserMessage" class="loser-message"></p>
+
+        <button id="backToStartAfterFinishButton" class="submit-button">
+          Volver al inicio
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
